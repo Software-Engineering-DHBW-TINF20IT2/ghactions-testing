@@ -16,4 +16,5 @@ jobs:
 
       - name: Run build with Gradle Wrapper
         run: ./gradlew test
+        working-directory: ./src/calculator/
 
