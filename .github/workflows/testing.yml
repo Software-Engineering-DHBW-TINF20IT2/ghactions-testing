@@ -24,5 +24,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: ./build/reports/tests/test/index.html
-        working-directory: ./src/calculator/
+          path: ./src/calculator/build/reports/tests/test/index.html
