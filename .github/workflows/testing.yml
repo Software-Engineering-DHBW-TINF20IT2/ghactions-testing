@@ -20,3 +20,9 @@ jobs:
           ./gradlew test
         working-directory: ./src/calculator/
 
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: ./build/reports/tests/test/index.html
+        working-directory: ./src/calculator/
