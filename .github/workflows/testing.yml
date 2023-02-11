@@ -21,6 +21,7 @@ jobs:
         working-directory: ./src/calculator/
 
       - name: Upload test report
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: test-report
