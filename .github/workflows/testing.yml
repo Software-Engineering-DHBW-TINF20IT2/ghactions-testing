@@ -1,0 +1,21 @@
+name: Build and Test
+on: [push]
+
+jobs:
+
+  calculator:
+    name: Build and run frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew build
+
+      - run: ls -al
+
