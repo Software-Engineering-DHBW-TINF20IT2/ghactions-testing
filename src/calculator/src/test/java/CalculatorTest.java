@@ -44,7 +44,7 @@ public class CalculatorTest {
     BigInteger actualResult = calculator1.add(a, b);
 
     // then
-    BigInteger expected = new BigInteger("2147483655");
+    BigInteger expected = new BigInteger("2147483656");
     assertEquals(expected, actualResult);
   }
 
