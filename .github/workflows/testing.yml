@@ -10,6 +10,14 @@ jobs:
     steps:
       - name: Checkout repository content
         uses: actions/checkout@v2
+        with: 
+          path: ./main
+
+      - name: Checkout gh-pages content
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: ./gh-pages
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
@@ -18,11 +26,26 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew test
-        working-directory: ./src/calculator/
+        working-directory: ./main/src/calculator/
 
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: ./src/calculator/build/reports/tests/test/
+          path: ./main/src/calculator/build/reports/tests/test/
+
+      - name: Copy report to gh-pages
+        if: always()
+        run: |
+          rm -rdf ./gh-pages/*
+          cp ./main/src/calculator/build/reports/tests/test ./gh-pages
+
+      - name: Upload to repo
+        if: always()
+        run: |
+          git config --global user.name 'Test result pusher'
+          git add -A
+          git commit -m 'Add test results for ${{ github.sha }}'
+          git push
+        working-directory: ./gh-pages
