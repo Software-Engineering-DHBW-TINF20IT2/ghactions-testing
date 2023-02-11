@@ -39,7 +39,7 @@ jobs:
         if: always()
         run: |
           rm -rdf ./gh-pages/*
-          cp ./main/src/calculator/build/reports/tests/test ./gh-pages
+          cp -r ./main/src/calculator/build/reports/tests/test ./gh-pages
 
       - name: Upload to repo
         if: always()
