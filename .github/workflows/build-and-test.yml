@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build, Test and document
 on:
   push:
     branches:
@@ -33,6 +33,59 @@ jobs:
         with:
           name: frontend
           path: dist/
+
+
+  calculator-test:
+    name: Test calculator
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+      
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run build with Gradle Wrapper
+        run: |
+          chmod +x ./gradlew
+          ./gradlew test
+        working-directory: ./src/calculator/
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: calculator-test
+          path: ./src/calculator/build/reports/tests/test/
+
+
+  calculator-docu:
+    name: Document calculator
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Build documentation
+        run: |
+          javadoc ./src/calculator/src/main/java/dhbw/Calculator1.java
+        working-directory: ./docu
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v2
+        with:
+          name: calculator-docu
+          path: ./docu
+
+
 
 
   backend: 
