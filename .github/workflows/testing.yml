@@ -25,7 +25,7 @@ jobs:
           javadoc ./src/main/java/dhbw/Calculator1.java
         working-directory: ./main/src/calculator/
 
- 
+
   calculator:
     name: Build and run frontend
     runs-on: ubuntu-latest
