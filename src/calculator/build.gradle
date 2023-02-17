@@ -18,6 +18,7 @@ test {
     useJUnitPlatform()
 }
 
+
 task generateDocumentation(type: Javadoc) {
     source = dhbw.Calculator1
 }
