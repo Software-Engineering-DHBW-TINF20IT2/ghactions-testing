@@ -30,7 +30,7 @@ public class CalculatorTest {
     BigInteger actualResult = calculator1.add(a, b);
 
     // then
-    assertEquals(BigInteger.valueOf(5), actualResult);
+    assertEquals(BigInteger.valueOf(6), actualResult);
   }
 
   @Test
