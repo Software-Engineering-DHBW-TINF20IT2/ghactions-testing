@@ -78,7 +78,7 @@ jobs:
         run: |
           mkdir ./docu
           cd ./docu
-          javadoc ./../src/calculator/src/
+          javadoc ./../src/calculator/src/main/java/dhbw/Calculator1.java
 
       - name: Upload documentation
         uses: actions/upload-artifact@v2
