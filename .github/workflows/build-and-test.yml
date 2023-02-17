@@ -35,6 +35,38 @@ jobs:
           path: dist/
 
 
+
+
+  backend: 
+    name: Build and run backend
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+
+      - name: Prepare python
+        uses: actions/setup-python@v2
+
+      - name: Create dist dir
+        run: mkdir -p dist
+
+      - name: Build (create header)
+        run: echo '# Built at' $(date) | cat - src/backend/run.py > dist/run.py
+
+      - name: Run built Backend for testing
+        run: python dist/run.py
+
+      - name: Upload backend
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend
+          path: dist/
+
+
+
+
+
   calculator-test:
     name: Test calculator
     runs-on: ubuntu-latest
@@ -87,74 +119,6 @@ jobs:
           path: ./docu
 
 
-  calculator-gh-pages:
-    name: GH Pages for Calculator
-    runs-on: ubuntu-latest
-    needs: [calculator-docu, calculator-test]
-
-    steps:
-      - name: Checkout gh-pages content
-        uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-          path: ./gh-pages
-
-      - name: Download Test results
-        uses: actions/download-artifact@v2
-        with:
-          name: calculator-test
-          path: ./tests
-
-      - name: Download Docu results
-        uses: actions/download-artifact@v2
-        with:
-          name: calculator-docu
-          path: ./docu
-
-      - name: Update gh-pages content 
-        run: |
-          rm -rdf ./gh-pages/docu
-          rm -rdf ./gh-pages/tests
-          cp -r ./tests ./gh-pages
-          cp -r ./docu ./gh-pages
-
-      - name: Upload to repo gh-pages 
-        run: |
-          git config --global user.name 'GH-Pages pusher'
-          git add -A
-          git commit -m 'Add test results for ${{ github.sha }}'
-          git push
-        working-directory: ./gh-pages
-
-
-
-
-  backend: 
-    name: Build and run backend
-    runs-on: ubuntu-latest
-
-    steps: 
-      - name: Checkout repository content
-        uses: actions/checkout@v2
-
-      - name: Prepare python
-        uses: actions/setup-python@v2
-
-      - name: Create dist dir
-        run: mkdir -p dist
-
-      - name: Build (create header)
-        run: echo '# Built at' $(date) | cat - src/backend/run.py > dist/run.py
-
-      - name: Run built Backend for testing
-        run: python dist/run.py
-
-      - name: Upload backend
-        uses: actions/upload-artifact@v2
-        with:
-          name: backend
-          path: dist/
-
 
   bundle:
     name: Create bundle and upload
@@ -184,19 +148,61 @@ jobs:
           zip -r ../bundle.zip ./*
         working-directory: dist/
 
-      - name: Checkout repository content
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundle
+          path: ./dist/bundle.zip
+
+
+
+
+  update-gh-pages:
+    name: GH Pages for Calculator
+    runs-on: ubuntu-latest
+    needs: [calculator-docu, calculator-test, bundle]
+
+    steps:
+      - name: Checkout gh-pages content
         uses: actions/checkout@v2
         with:
-          path: repo/
+          ref: gh-pages
+          path: ./gh-pages
 
-      - name: Move bundle to repo
-        run: mv bundle.zip repo/
+      - name: Download Test results
+        uses: actions/download-artifact@v2
+        with:
+          name: calculator-test
+          path: ./tests
 
-      - name: Upload to repo
+      - name: Download Docu results
+        uses: actions/download-artifact@v2
+        with:
+          name: calculator-docu
+          path: ./docu
+
+      - name: Download Bundle
+        uses: actions/download-artifact@v2
+        with:
+          name: bundle
+          path: ./download
+
+      - name: Update gh-pages content 
         run: |
-          git config --global user.name 'Bundle Creator'
-          git add bundle.zip
-          git commit -m 'Add bundle for commit ${{ github.sha }}'
+          rm -rdf ./gh-pages/docu
+          rm -rdf ./gh-pages/tests
+          rm -rdf ./gh-pages/download
+          cp -r ./tests ./gh-pages
+          cp -r ./docu ./gh-pages
+          cp -r ./download ./gh-pages
+
+      - name: Upload to repo gh-pages 
+        run: |
+          git config --global user.name 'GH-Pages pusher'
+          git add -A
+          git commit -m 'Add test results for ${{ github.sha }}'
           git push
-        working-directory: repo/
+        working-directory: ./gh-pages
+
 
