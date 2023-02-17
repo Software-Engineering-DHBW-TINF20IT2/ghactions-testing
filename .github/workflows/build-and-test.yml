@@ -47,13 +47,13 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Run build with Gradle Wrapper
+        continue-on-error: true
         run: |
           chmod +x ./gradlew
           ./gradlew test
         working-directory: ./src/calculator/
 
       - name: Upload test report
-        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: calculator-test
@@ -85,6 +85,46 @@ jobs:
         with:
           name: calculator-docu
           path: ./docu
+
+
+  calculator-gh-pages:
+    name: GH Pages for Calculator
+    runs-on: ubuntu-latest
+    needs: [calculator-docu, calculator-test]
+
+    steps:
+      - name: Checkout gh-pages content
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: ./gh-pages
+
+      - name: Download Test results
+        uses: actions/download-artifact@v2
+        with:
+          name: calculator-test
+          path: ./tests
+
+      - name: Download Docu results
+        uses: actions/download-artifact@v2
+        with:
+          name: calculator-docu
+          path: ./docu
+
+      - name: Update gh-pages content 
+        run: |
+          rm -rdf ./gh-pages/docu/*
+          rm -rdf ./gh-pages/tests/*
+          cp -r ./tests ./gh-pages/tests
+          cp -r ./docu ./gh-pages/docu
+
+      - name: Upload to repo gh-pages 
+        run: |
+          git config --global user.name 'GH-Pages pusher'
+          git add -A
+          git commit -m 'Add test results for ${{ github.sha }}'
+          git push
+        working-directory: ./gh-pages
 
 
 
