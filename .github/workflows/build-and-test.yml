@@ -145,7 +145,7 @@ jobs:
         run: |
           echo "Bundle created at" $(date) > creation.txt
           mkdir ../download
-          zip -r ../bundle.zip ./*
+          zip -r ../download/bundle.zip ./*
         working-directory: dist/
 
 
