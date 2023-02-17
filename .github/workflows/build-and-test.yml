@@ -113,10 +113,10 @@ jobs:
 
       - name: Update gh-pages content 
         run: |
-          rm -rdf ./gh-pages/docu/*
-          rm -rdf ./gh-pages/tests/*
-          cp -r ./tests ./gh-pages/tests
-          cp -r ./docu ./gh-pages/docu
+          rm -rdf ./gh-pages/docu
+          rm -rdf ./gh-pages/tests
+          cp -r ./tests ./gh-pages
+          cp -r ./docu ./gh-pages
 
       - name: Upload to repo gh-pages 
         run: |
