@@ -3,8 +3,8 @@ on: [push]
 
 jobs:
 
-  javadoc:
-    name: Create documentation
+  documentation: 
+    name: Build documentation
     runs-on: ubuntu-latest
 
     steps: 
@@ -13,20 +13,18 @@ jobs:
         with: 
           path: ./main
 
-      - name: Checkout gh-pages content
-        uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-          path: ./gh-pages
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
 
       - name: Build documentation
         run: |
-          chmod +x ./gradlew
-          ./gradlew generateDocumentation
+          javadoc ./src/main/java/dhbw/Calculator1.java
         working-directory: ./main/src/calculator/
+
 
   calculator:
     name: Build and run frontend
