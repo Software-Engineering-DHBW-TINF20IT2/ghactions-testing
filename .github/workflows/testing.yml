@@ -3,6 +3,31 @@ on: [push]
 
 jobs:
 
+  javadoc:
+    name: Create documentation
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+        with: 
+          path: ./main
+
+      - name: Checkout gh-pages content
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: ./gh-pages
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build documentation
+        run: |
+          chmod +x ./gradlew
+          ./gradlew generateDocumentation
+        working-directory: ./main/src/calculator/
+
   calculator:
     name: Build and run frontend
     runs-on: ubuntu-latest
