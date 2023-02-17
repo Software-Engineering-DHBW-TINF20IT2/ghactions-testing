@@ -5,9 +5,9 @@ import java.math.BigInteger;
 public class Calculator1 {
 
   /**
-   * Add two numbers
-   * @param a
-   * @param b
+   * Add two numbers by using addition
+   * @param a First number (left from + sign)
+   * @param b Second number (right from + sign)
    * @return
    */
   public BigInteger add(BigInteger a, BigInteger b) {
@@ -23,9 +23,9 @@ public class Calculator1 {
   }
 
   /**
-   * Substract two numbers
-   * @param a
-   * @param b
+   * Substract two numbers by using substraction giving the difference between two numbers
+   * @param a The number left from the - sign which the second number will be substracted from 
+   * @param b The number right from the - sign which will be substracted from the first one
    * @return
    */
   public int substract(int a, int b) {
@@ -34,8 +34,8 @@ public class Calculator1 {
 
   /**
    * Divide two numbers
-   * @param a
-   * @param b
+   * @param a The number left from the / sign which will be divided
+   * @param b The number right from the / sign which the first number will be divided by 
    * @return
    */
   public int divide(int a, int b) {
@@ -44,8 +44,8 @@ public class Calculator1 {
 
   /**
    * Multiply two numbers
-   * @param a
-   * @param b
+   * @param a The first multiplied number left from the * sign
+   * @param b The second multiplied number right from the * sign
    * @return
    */
   public int multiply(int a, int b) {

@@ -14,21 +14,3 @@ public class Main {
     }
 
 }
-
-
-
-
-
-/*
-// substract
-        result = calculator.substract(3,2);
-            System.out.println("Substract two numbers: " + result);
-
-            // multiply
-            result = calculator.multiply(3,2);
-            System.out.println("Multiply two numbers: " + result);
-
-            // divide
-            result = calculator.divide(3,2);
-            System.out.println("Divide two numbers: " + result);
-*/
