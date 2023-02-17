@@ -200,6 +200,7 @@ jobs:
       - name: Upload to repo gh-pages 
         run: |
           git config --global user.name 'GH-Pages pusher'
+          git config --global user.email "gh-pusher@local"
           git add -A
           git commit -m 'Add test results for ${{ github.sha }}'
           git push
