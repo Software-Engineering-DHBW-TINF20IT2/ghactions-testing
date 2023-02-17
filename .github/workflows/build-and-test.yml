@@ -76,11 +76,9 @@ jobs:
 
       - name: Build documentation
         run: |
+          mkdir ./docu
+          cd ./docu
           javadoc ./src/calculator/src/main/java/dhbw/Calculator1.java
-        working-directory: ./docu
-
-      - name: Create docu working dir 
-        run: mkdir ./docu
 
       - name: Upload documentation
         uses: actions/upload-artifact@v2
