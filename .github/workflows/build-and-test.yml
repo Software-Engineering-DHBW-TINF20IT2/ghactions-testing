@@ -144,7 +144,7 @@ jobs:
       - name: Create bundle
         run: |
           echo "Bundle created at" $(date) > creation.txt
-          rm -f ../bundle.zip
+          mkdir ../download
           zip -r ../bundle.zip ./*
         working-directory: dist/
 
@@ -153,7 +153,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bundle
-          path: ./bundle.zip
+          path: ./download
 
 
 
